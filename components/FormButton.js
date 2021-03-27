@@ -15,7 +15,7 @@ export default FormButton;
 const styles = StyleSheet.create({
   buttonContainer: {
     marginTop: 10,
-    width: "100%",
+    width: "60%",
     height: windowHeight / 15,
     backgroundColor: "#FB8856",
     padding: 10,

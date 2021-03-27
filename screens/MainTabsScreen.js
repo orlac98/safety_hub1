@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import  React from 'react';
  import { createStackNavigator } from '@react-navigation/stack';
- import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Button from 'react-native';
 
 //icon fonts
@@ -23,17 +23,36 @@ import LearnScreen from "./LearnScreen";
  const ProfileStack = createStackNavigator();
  const FormsStack = createStackNavigator();
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
-const MainTabsScreen = ({navigation}) => (
+const MainTabsScreen = () => {
+  return (
   <Tab.Navigator
-    initialRouteName="Tasks"
-    activeColor="#fb8856"
-    inactiveColor="#45505d"
-    barStyle={{ 
+  tabBarOptions = {{
+    
+    activeTintColor: '#fb8856',
+    inactiveTintColor: '#45505d',
+    showLabel: false,
+    style: {
+        // position: 'absolute',
+        height: 60,
+        backgroundColor: '#1c1c1c',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        borderBottomLeftRadius: 20,
+        borderBottomRightRadius: 20,
+        marginHorizontal: 10,
+        top:-3,
+        bottom: 5,
+    }
+  }}
+    // initialRouteName="Tasks"
+    // activeColor="#fb8856"
+    // inactiveColor="#45505d"
+    // barStyle={{ 
      
-      backgroundColor: "#fefeff"
-     }}
+    //   backgroundColor: "#fefeff"
+    //  }}
   >
     <Tab.Screen
       name="Tasks"
@@ -77,8 +96,8 @@ const MainTabsScreen = ({navigation}) => (
       }}
     />
   </Tab.Navigator>
-);
-
+)
+    };
 export default MainTabsScreen;
 
 // const TasksStackScreen = ({navigation}) => (

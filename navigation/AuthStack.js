@@ -9,7 +9,9 @@ import SignupScreen from "../screens/SignupScreen";
 import MainTabsScreen from "../screens/MainTabsScreen";
 import FormsScreen from "../screens/FormsScreen";
 import FilePreview from '../screens/FilePreview';
-
+import TaskList from '../screens/TaskList';
+import EditList from '../screens/EditList';
+import TasksScreen from '../screens/TasksScreen';
 import { GoogleSignin } from "@react-native-community/google-signin";
 
 const Stack = createStackNavigator();
@@ -50,15 +52,27 @@ const AuthStack = () => {
         options={{ header: () => null }}
       />
 
-       {/* <Stack.Screen
+       <Stack.Screen
         name="formScreen"
         component={FormsScreen}
         options={{ header: () => null }}
-      /> */}
+      />
+          <Stack.Screen
+        name="TaskList"
+        component={TaskList}
+        
+      />
+       <Stack.Screen
+        name="EditList"
+        component={EditList}
+        
+      />
+      <Stack.Screen
+        name="TasksScreen"
+        component={TasksScreen}
+        
+      />
      
-
-     
-
       <Stack.Screen
         name="Login"
         component={LoginScreen}
@@ -93,7 +107,7 @@ const AuthStack = () => {
         component={MainTabsScreen}
         options={{ header: () => null }}
       />
-      
+   
     </Stack.Navigator>
   );
 };

@@ -49,17 +49,17 @@ const OnBoardingScreen = ({navigation}) => {
             pages={[
              {
                
-                image: <Image source={require('../assets/Tasks.png')} resizeMode="contain" style={{ width: 680, height: 800 }} />,
+                image: <Image source={require('../assets/Tasks.png')} resizeMode="center" style={{ width: 680, height: 800 }} />,
               
              },
              {
                 
-                image: <Image source={require('../assets/forms.png')} resizeMode="contain" style={{ width: 700, height: 800 }} />,
+                image: <Image source={require('../assets/forms.png')} resizeMode="center" style={{ width: 700, height: 800 }} />,
           
              },
              {
                
-                image: <Image source={require('../assets/saved.png')} resizeMode="contain" style={{ width: 700, height: 800 }} />,
+                image: <Image source={require('../assets/saved.png')} resizeMode="center" style={{ width: 700, height: 800 }} />,
                
              },
             ]}

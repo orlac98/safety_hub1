@@ -22,6 +22,7 @@ import DocumentPicker from "react-native-document-picker";
 import RNFetchBlob from "rn-fetch-blob";
 import firebaseSetup from "../database/firebaseDb";
 import AuthStack from '../navigation/AuthStack';
+import firestore from '@react-native-firebase/firestore';
 
 
 const FilesScreen = (props) => {
@@ -29,6 +30,8 @@ const FilesScreen = (props) => {
   const [filesList, setFilesList] = React.useState([]);
   const { user } = useContext(AuthContext);
 
+
+  
   //we can choose all types of files here
   async function chooseFile() {
     // Pick a single file
@@ -117,8 +120,10 @@ setFilesList([])
         setFilesList((files) => [...files,...helperArr])
       });
     return () => database().ref(`allFiles`).off("child_added", onChildAdded);
+ 
+ 
   }, []);
-
+  
 const deleteAllFiles = Id => {
   // alert(Id);
 }
@@ -153,7 +158,7 @@ const deleteFile = Id => {
 
           })
           }>
-            <Text>{item.fileName}{user.uid}</Text>
+            <Text>{item.fileName}</Text>
             <Button transparent onPress={() => deleteFile('Id')}>
               <Icon active name="trash"/>
             </Button>

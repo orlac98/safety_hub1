@@ -1,6 +1,6 @@
 import React , { useState }from "react";
 import { ImageBackground,TextInput, ScrollView, View,ActivityIndicator,Pressable, Modal ,Alert, Text, Button, StyleSheet, SafeAreaView, TouchableOpacity} from "react-native";
-import CardView from 'react-native-cardview'
+import CardView from 'react-native-cardview';
 import firebase from '../database/firebaseDb';
 
 
@@ -26,7 +26,7 @@ const FormsScreen = ({ navigation }) => {
                
                 <Text style={styles.text}
                 onPress={() =>
-                navigation.navigate("FormPreview")
+                navigation.navigate("Asbestos")
               }>Construction</Text>
                 
               </View>
@@ -41,7 +41,7 @@ const FormsScreen = ({ navigation }) => {
              
             >
               <Text style={styles.text}  onPress={() =>
-                navigation.navigate("FormPreview")}
+                navigation.navigate("Asbestos")}
               >Asbestos</Text>
             </CardView>
             
