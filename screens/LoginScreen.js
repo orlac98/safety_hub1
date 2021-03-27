@@ -11,12 +11,19 @@ import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
 import { AuthContext } from "../navigation/AuthProvider";
+import validator from 'validator';
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState({errorMessage: ''});
+  const [password, setPassword] = useState({errorMessage: ''});
   const { login, googleLogin } = useContext(AuthContext);
 
+  const validateFields = (email, password) =>{
+    const isValid = {
+      email: validator.isEmail(email),
+      password: va
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -33,6 +40,8 @@ const LoginScreen = ({ navigation }) => {
         onChangeText={(userEmail) => setEmail(userEmail)}
         placeholderText="Email"
         iconType="user"
+        errorMessage={email.errorMessage}
+        autoCompleteType='email'
         keyboardType="email-address"
         autoCapitalize="none"
         autoCorrect={false}
@@ -42,6 +51,7 @@ const LoginScreen = ({ navigation }) => {
         labelValue={password}
         onChangeText={(userPassword) => setPassword(userPassword)}
         placeholderText="Password"
+        errorMessage={password.errorMessage}
         iconType="lock"
         secureTextEntry={true}
       />

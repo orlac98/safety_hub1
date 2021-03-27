@@ -28,6 +28,7 @@ import firebaseSetup from "../database/firebaseDb";
 import AuthStack from "../navigation/AuthStack";
 import firestore from "@react-native-firebase/firestore";
 import { color } from "react-native-reanimated";
+import ColourSelector from "../components/ColourSelector";
 
 const FilesScreen = (props) => {
   const { storage, database } = firebaseSetup();
@@ -157,19 +158,19 @@ const FilesScreen = (props) => {
             key={index}
             
           >
-            <Text onPress={() =>
+            <Text style={styles.text} onPress={() =>
               props.navigation.navigate("FilePreview", {
                 fileData: item,
               })
             }>{item.fileName}</Text>
             <Button transparent onPress={() => deleteFile("Id")}>
-              <Icon active name="trash" />
+              <Icon  style={styles.icon} active name="trash" />
             </Button>
           </CardView>
         ))}
       </Content>
+      
       <View>
-        <FAB style={styles.fab} large icon="plus" onPress={chooseFile} />
         <FAB style={styles.fab} large icon="plus" onPress={chooseFile} />
       </View>
     </Container>
@@ -180,12 +181,13 @@ export default FilesScreen;
 const styles = StyleSheet.create({
   fab: {
     position: "absolute",
+    backgroundColor: Colours.orange,
     margin: 16,
     right: 0,
     bottom: 0,
   },
   card: {
-    backgroundColor: '#ffd9b3' ,
+    backgroundColor: Colours.grey ,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -194,4 +196,10 @@ const styles = StyleSheet.create({
     marginTop: 30,
     margin: 20
   },
+  icon: {
+    color: Colours.red
+  },
+  text: {
+    color: 'white'
+  }
 });

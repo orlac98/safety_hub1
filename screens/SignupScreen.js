@@ -12,9 +12,9 @@ import SocialButton from "../components/SocialButton";
 import {AuthContext} from '../navigation/AuthProvider';
 
 const SignupScreen = ({ navigation }) => {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+  const [email, setEmail] = useState({errorMessage: ''});
+  const [password, setPassword] = useState({errorMessage: ''});
+  const [confirmPassword, setConfirmPassword] = useState({errorMessage: ''});
 
   const { register } = useContext(AuthContext);
 
@@ -27,6 +27,7 @@ const SignupScreen = ({ navigation }) => {
         onChangeText={(userEmail) => setEmail(userEmail)}
         placeholderText="Email"
         iconType="user"
+        errorMessage={email.errorMessage}
         keyboardType="email-address"
         autoCapitalize="none"
         autoCorrect={false}
@@ -37,6 +38,7 @@ const SignupScreen = ({ navigation }) => {
         onChangeText={(userPassword) => setPassword(userPassword)}
         placeholderText="Password"
         iconType="lock"
+        errorMessage={password.errorMessage}
         secureTextEntry={true}
       />
 
@@ -45,6 +47,7 @@ const SignupScreen = ({ navigation }) => {
         onChangeText={(userPassword) => setConfirmPassword(userPassword)}
         placeholderText="Confirm Password"
         iconType="lock"
+        errorMessage={confirmPassword.errorMessage}
         secureTextEntry={true}
       />
       
