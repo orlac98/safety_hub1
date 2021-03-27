@@ -2,7 +2,7 @@ import React , { useState }from "react";
 import { ImageBackground,TextInput, ScrollView, View,ActivityIndicator,Pressable, Modal ,Alert, Text, Button, StyleSheet, SafeAreaView, TouchableOpacity} from "react-native";
 import CardView from 'react-native-cardview';
 import firebase from '../database/firebaseDb';
-
+import Colours from "../constants/Colours";
 
 const FormsScreen = ({ navigation }) => {
   // const [modalVisible, setModalVisible] = useState(false);
@@ -11,7 +11,7 @@ const FormsScreen = ({ navigation }) => {
     <SafeAreaView style={styles.safeAreaView}>
        
         <View style={styles.container}>
-        <ImageBackground source={require('../assets/bg1.png')} style={styles.image}>
+        {/* <ImageBackground source={require('../assets/bg1.png')} style={styles.image}> */}
           <View flexDirection="row">
          
             <CardView
@@ -101,7 +101,7 @@ const FormsScreen = ({ navigation }) => {
               <Text style={styles.text}>Tool Box Talk</Text>
             </CardView>
           </View>
-          </ImageBackground>
+          {/* </ImageBackground> */}
         </View>
        
       </SafeAreaView>
@@ -121,21 +121,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#Fff",
   },
   card: {
-    backgroundColor: 'white',
+    backgroundColor: Colours.red,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
     flex: 1,
-    marginTop: 30,
-    margin: 20
+    marginTop:20,
+    margin: 10
   },
   text: {
     textAlign: 'center',
-    color: '#034C5F',
+    color: Colours.white ,
     margin: 30,
-    height: 55,
+    height: 49,
     fontWeight: 'bold',
-    fontSize: 14
+    fontSize: 16
   },
   instructions: {
     textAlign: 'center',

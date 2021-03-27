@@ -72,7 +72,7 @@ const AppStack = () => {
           return({
             title: route.params.title ? `Edit ${route.params.title} list` : 'create new list' ,
             headerStyle: {
-              backgroundColor: route.params.color || Colours.orange,
+              backgroundColor: route.params.color || Colours.grey,
               
             },
             headerTintColor: 'white',
