@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   card: {
-    backgroundColor: Colours.grey ,
+    backgroundColor: Colours.lightgrey ,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -200,6 +200,5 @@ const styles = StyleSheet.create({
     color: Colours.red
   },
   text: {
-    color: 'white'
-  }
+    color: Colours.white  }
 });

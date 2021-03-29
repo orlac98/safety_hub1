@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {  useContext, useState } from "react";
 import {
   View,
   Text,
@@ -11,37 +11,43 @@ import FormInput from "../components/FormInput";
 import FormButton from "../components/FormButton";
 import SocialButton from "../components/SocialButton";
 import { AuthContext } from "../navigation/AuthProvider";
-import validator from 'validator';
+
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = useState({errorMessage: ''});
-  const [password, setPassword] = useState({errorMessage: ''});
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
   const { login, googleLogin } = useContext(AuthContext);
 
-  const validateFields = (email, password) =>{
-    const isValid = {
-      email: validator.isEmail(email),
-      password: va
-    }
-  }
+  // const validateFields = (email, password) => {
+  //   const isValid = {
+  //     email: validator.isEmail(email),
+  //     password: validator.isStrongPassword(password, {
+  //       minLength: 6,
+  //       minLowercase: 1,
+  //       minUppercase: 1,
+  //       minNumbers: 1,
+  //     }),
+  //   };
+  //   return isValid;
+  // };
 
   return (
     <View style={styles.container}>
       <Image source={require("../assets/logo.png")} style={styles.logo} />
       <Text style={styles.text}>SafetyHub</Text>
-      
-      {/* <View style={styles.errorMessage}>
-        {this.state.errorMessage && <Text style={styles.error}>{this.state.errorMessage}</Text>}
-        </View> */}
 
+      {/* <View style={styles.errorMessage}>
+        {this.state.errorMessage && 
+        <Text style={styles.errorMessage}>
+          {this.state.errorMessage}</Text>}
+        </View> */}
 
       <FormInput
         labelValue={email}
         onChangeText={(userEmail) => setEmail(userEmail)}
         placeholderText="Email"
         iconType="user"
-        errorMessage={email.errorMessage}
-        autoCompleteType='email'
+        autoCompleteType="email"
         keyboardType="email-address"
         autoCapitalize="none"
         autoCorrect={false}
@@ -51,14 +57,31 @@ const LoginScreen = ({ navigation }) => {
         labelValue={password}
         onChangeText={(userPassword) => setPassword(userPassword)}
         placeholderText="Password"
-        errorMessage={password.errorMessage}
         iconType="lock"
         secureTextEntry={true}
       />
 
       <FormButton
         buttonTitle="Sign In"
-        onPress={() => login(email, password)}
+        onPress={
+          () => { login(email, password)
+            // const isAllValid = validateFields(
+            //   email.text, password.text);
+            // let isValid = true;
+            // if (!isValid.email) {
+            //   email.errorMessage = "Please enter a valid email";
+            //    setEmail({ ...email });
+            //   isAllValid = false;
+            // }
+            // if (!isValid.password) {
+            //   password.errorMessage =
+            //     "Password must be atleast 6 characters w/numbers & uppercase ";
+            //    setPassword({ ...password });
+            //   isAllValid = false;
+            // }
+          }}
+         
+        
       />
 
       <TouchableOpacity style={styles.forgotButton} onPress={() => {}}>
@@ -116,18 +139,17 @@ const styles = StyleSheet.create({
   forgotButton: {
     marginVertical: 35,
     color: "#FD5F57",
-    
   },
   navButtonText: {
     fontSize: 18,
     fontWeight: "500",
     color: "#FD5F57",
-    fontFamily: "Comfortaa-Regular"
+    fontFamily: "Comfortaa-Regular",
   },
   errorMessage: {
     height: 72,
     alignItems: "center",
     justifyContent: "center",
-    marginHorizontal: 30
-  }
+    marginHorizontal: 30,
+  },
 });

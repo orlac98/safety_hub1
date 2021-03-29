@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#Fff",
   },
   card: {
-    backgroundColor: Colours.red,
+    backgroundColor: Colours.grey,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
