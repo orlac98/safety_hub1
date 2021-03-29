@@ -26,8 +26,6 @@ const SignupScreen = ({ navigation }) => {
         onChangeText={(userEmail) => setEmail(userEmail)}
         placeholderText="Email"
         iconType="user"
-        errorMessage={email.errorMessage}
-        text=''
         keyboardType="email-address"
         autoCapitalize="none"
         autoCorrect={false}
