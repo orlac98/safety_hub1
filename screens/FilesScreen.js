@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../navigation/AuthProvider";
 import { FAB } from "react-native-paper";
-import CardView from 'react-native-cardview';
-import Colours from '../constants/Colours';
+import CardView from "react-native-cardview";
+import Colours from "../constants/Colours";
 import {
   Text,
   View,
@@ -29,8 +29,14 @@ import AuthStack from "../navigation/AuthStack";
 import firestore from "@react-native-firebase/firestore";
 import { color } from "react-native-reanimated";
 import ColourSelector from "../components/ColourSelector";
+import firebase from "@react-native-firebase/app";
 
 const FilesScreen = (props) => {
+  firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+      console.log('User email: ', user.email);
+    }
+  });
   const { storage, database } = firebaseSetup();
   const [filesList, setFilesList] = React.useState([]);
   const { user } = useContext(AuthContext);
@@ -103,12 +109,12 @@ const FilesScreen = (props) => {
   function saveFileToRealtimeDatabase(downloadURL, file) {
     const uniquKey = database().ref().push().key;
     database()
-      .ref(`allFiles/${uniquKey}`)
+      .ref(`allFiles/${user.uid}/${uniquKey}`)
       .update({
         fileName: file.name,
         fileType: file.type,
         fileURL: downloadURL,
-        userId: `${user.uid}`,
+        // userId: `${user.uid}`,
       });
   }
   React.useEffect(() => {
@@ -117,13 +123,13 @@ const FilesScreen = (props) => {
     //end
 
     const onChildAdded = database()
-      .ref(`allFiles`)
+      .ref(`allFiles/${user.uid}`)
       .on("child_added", (snapshot) => {
         let helperArr = [];
         helperArr.push(snapshot.val());
         setFilesList((files) => [...files, ...helperArr]);
       });
-    return () => database().ref(`allFiles`).off("child_added", onChildAdded);
+    return () => database().ref(`allFiles`).off("child_added",onChildAdded);
   }, []);
 
   const deleteAllFiles = (Id) => {
@@ -135,41 +141,32 @@ const FilesScreen = (props) => {
 
   return (
     <Container>
-      {/* <Header>
-        <Body style={{ flex: 1, alignItems: "center" }}>
-          <Title> File </Title>
-        </Body>
-        <Right style={{ flex: 0.2 }}>
-          <Button transparent onPress={chooseFile}>
-            <Icon name="cloud-upload" type="MaterialIcons" />
-          </Button>
-          <Button transparent onPress={deleteAllFiles("Id")}>
-            <Icon name="trash" />
-          </Button>
-        </Right>
-      </Header> */}
       <Content>
         {filesList.map((item, index) => (
           <CardView
-          // cardElevation={7}
-          //     cardMaxElevation={7}
-              cornerRadius={20}
-              style={styles.card}
+            // cardElevation={7}
+            //     cardMaxElevation={7}
+            cornerRadius={20}
+            style={styles.card}
             key={index}
-            
           >
-            <Text style={styles.text} onPress={() =>
-              props.navigation.navigate("FilePreview", {
-                fileData: item,
-              })
-            }>{item.fileName}</Text>
+            <Text
+              style={styles.text}
+              onPress={() =>
+                props.navigation.navigate("FilePreview", {
+                  fileData: item,
+                })
+              }
+            >
+              {item.fileName}
+            </Text>
             <Button transparent onPress={() => deleteFile("Id")}>
-              <Icon  style={styles.icon} active name="trash" />
+              <Icon style={styles.icon} active name="trash" />
             </Button>
           </CardView>
         ))}
       </Content>
-      
+
       <View>
         <FAB style={styles.fab} large icon="plus" onPress={chooseFile} />
       </View>
@@ -187,18 +184,19 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   card: {
-    backgroundColor: Colours.lightgrey ,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
+    backgroundColor: Colours.lightgrey,
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
     flex: 1,
     width: 200,
     marginTop: 30,
-    margin: 20
+    margin: 20,
   },
   icon: {
-    color: Colours.red
+    color: Colours.red,
   },
   text: {
-    color: Colours.white  }
+    color: Colours.white,
+  },
 });

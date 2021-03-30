@@ -23,3 +23,7 @@ const firebaseConfig = {
   export default () => {
     return {firebase, auth, database, storage,firestore};
   };
+// import firebase from "firebase/app";
+// import { firebaseConfig } from "firebase";
+
+// export default !firebase.apps.length ? firebase.initializeApp(firebaseConfig) : firebase.app();

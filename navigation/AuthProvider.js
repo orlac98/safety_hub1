@@ -1,21 +1,25 @@
 import React, { createContext, useState } from "react";
 import auth from "@react-native-firebase/auth";
 import { GoogleSignin } from "@react-native-community/google-signin";
-import firestore from '@react-native-firebase/firestore';
+import firestore from 'firebase/app';
+import firebase from '@react-native-firebase/app';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
+ 
   return (
+    
     <AuthContext.Provider
+    
       value={{
         user,
         setUser,
         login: async (email, password) => {
+          
           try {
-            await auth().signInWithEmailAndPassword(email, password);
+            await firebase.auth().signInWithEmailAndPassword(email, password);
           } catch (e) {
             console.log(e);
           }
@@ -32,23 +36,23 @@ export const AuthProvider = ({ children }) => {
         },
         register: async (email, password) => {
           try {
-            await auth().createUserWithEmailAndPassword(email, password)
-            .then(() => {
+            firebase.auth().createUserWithEmailAndPassword(email, password)
+            // .then(() => {
               //Once the user creation has happened successfully, we can add the currentUser into firestore
               //with the appropriate details.
-              firestore().collection('users').doc(auth().currentUser.uid)
-              .set({
-                  // fname: '',
-                  // lname: '',
-                  email: email,
-                  createdAt: firestore.Timestamp.fromDate(new Date()),
-                  userImg: null,
-              })
+              // firestore().collection('users').doc(auth().currentUser.uid)
+              // .set({
+              //     // fname: '',
+              //     // lname: '',
+              //     email: email,
+              //     createdAt: firestore.Timestamp.fromDate(new Date()),
+              //     userImg: null,
+              // })
               //ensure we catch any errors at this stage to advise us if something does go wrong
               .catch(error => {
                   console.log('Something went wrong with added user to firestore: ', error);
               })
-            })
+            // })
             //we need to catch the whole sign up process if it fails too.
             .catch(error => {
                 console.log('Something went wrong with sign up: ', error);
@@ -70,5 +74,6 @@ export const AuthProvider = ({ children }) => {
       
       {children}
     </AuthContext.Provider>
+   
   );
 };

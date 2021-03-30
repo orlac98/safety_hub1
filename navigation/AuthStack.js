@@ -8,6 +8,7 @@ import LoginScreen from "../screens/LoginScreen";
 import SignupScreen from "../screens/SignupScreen";
 import MainTabsScreen from "../screens/MainTabsScreen";
 import FormsScreen from "../screens/FormsScreen";
+import FilesScreen from "../screens/FilesScreen";
 import FilePreview from '../screens/FilePreview';
 import TaskList from '../screens/TaskList';
 import EditList from '../screens/EditList';
@@ -52,27 +53,7 @@ const AuthStack = () => {
         options={{ header: () => null }}
       />
 
-       <Stack.Screen
-        name="formScreen"
-        component={FormsScreen}
-        options={{ header: () => null }}
-      />
-          <Stack.Screen
-        name="TaskList"
-        component={TaskList}
-        
-      />
-       <Stack.Screen
-        name="EditList"
-        component={EditList}
-        
-      />
-      <Stack.Screen
-        name="TasksScreen"
-        component={TasksScreen}
-        
-      />
-     
+      
       <Stack.Screen
         name="Login"
         component={LoginScreen}
@@ -107,6 +88,38 @@ const AuthStack = () => {
         component={MainTabsScreen}
         options={{ header: () => null }}
       />
+      
+          <Stack.Screen
+        name="TaskList"
+        component={TaskList}
+        
+      />
+      <Stack.Screen
+        name="FilesScreen"
+        component={FilesScreen}
+        
+      />
+       <Stack.Screen
+        name="formScreen"
+        component={FormsScreen}
+        options={{ header: () => null }}
+      />
+       <Stack.Screen
+        name="EditList"
+        component={EditList}
+        
+      />
+      <Stack.Screen
+        name="FilePreview"
+        component={FilePreview}
+        
+      />
+      <Stack.Screen
+        name="TasksScreen"
+        component={TasksScreen}
+        
+      />
+     
    
     </Stack.Navigator>
   );

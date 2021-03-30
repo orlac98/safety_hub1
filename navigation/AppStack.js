@@ -29,16 +29,7 @@ const AppStack = () => {
         }
       }}
        />
-       <Stack.Screen
-        name="FilePreview"
-        component={FilePreview}
-        
-      />
-       <Stack.Screen
-        name="Asbestos"
-        component={Asbestos}
-        
-      />
+     
       <Stack.Screen
         name="TasksScreen"
         component={TasksScreen}
@@ -85,6 +76,16 @@ const AppStack = () => {
           })
       }
     }
+        
+      />
+        <Stack.Screen
+        name="FilePreview"
+        component={FilePreview}
+        
+      />
+       <Stack.Screen
+        name="Asbestos"
+        component={Asbestos}
         
       />
     </Stack.Navigator>

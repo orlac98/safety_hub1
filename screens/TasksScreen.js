@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -12,15 +12,45 @@ import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { FAB } from "react-native-paper";
 import { SafeAreaView } from "react-native";
-import { add } from "lodash";
+import {
+  onSapshot,
+  addDoc,
+  removeDoc,
+  updateDoc,
+} from "../database/collections";
+import { firestore, auth } from "firebase";
+import { AuthContext } from "../navigation/AuthProvider";
 
 const TasksScreen = ({ navigation }) => {
-  const [lists, setLists] = useState([
-    { title: "Monday", color: Colours.red },
-    { title: "Tuesday", color: Colours.orange },
-    { title: "Wednesday", color: Colours.grey },
-    { title: "Thursday", color: Colours.darkgrey },
-  ]);
+  
+  const {user} = useContext(AuthContext);
+  const [lists, setLists] = useState([]);
+
+
+  // const listsRef = firestore().collection('users').doc(auth().currentUser.uid)
+  // .collection("lists");
+
+  // useEffect(() => {
+  //   onSapshot(
+  //     listsRef,
+  //     (newLists) => {
+  //       setLists(newLists);
+  //     },
+  //     {
+  //       sort: (a,b) => {
+  //         if(a.index < b.index){
+  //           return -1;
+  //         }
+  //         if(a.index > b.index) {
+  //           return 1;
+  //         }
+  //         return 0;
+  //       }
+  //     }
+  //   );
+    
+  // }, []);
+  
 
   const ListButton = ({ title, color, onPress, onDelete, onOptions }) => {
     return (
@@ -62,19 +92,17 @@ const TasksScreen = ({ navigation }) => {
           large
           icon="plus"
           onPress={() =>
-            addItemToLists(
-            
-              { title: "Title", color: Colours.orange }
-            )
+            addItemToLists({ title: "Title", color: Colours.orange })
           }
         />
       </View>
     );
   };
 
-  const addItemToLists = (item) => {
-    lists.push(item);
-    setLists([...lists]);
+  const addItemToLists = ({title, color}) => {
+    const index = lists.length > 1 ? lists[lists.length - 1].index + 1 : 0;
+    addDoc(listsRef, {title,color,index});
+    // setLists([...lists]);
   };
 
   const removeItemFromLists = (index) => {

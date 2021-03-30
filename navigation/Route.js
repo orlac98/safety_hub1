@@ -5,6 +5,7 @@ import {AuthContext} from './AuthProvider';
 import AuthStack from './AuthStack';
 import AppStack from './AppStack';
 
+
 const Routes = () => {
 
     const {user, setUser} = useContext(AuthContext);
@@ -12,7 +13,7 @@ const Routes = () => {
 
     const onAuthStateChanged = (user) => {
         setUser(user);
-        if(initializing) setInitializing(false);
+        if (initializing) setInitializing(false);
     };
 
     useEffect(() => {
@@ -21,6 +22,7 @@ const Routes = () => {
     }, []);
 
     if(initializing) return null;
+    
 
     return (
       <NavigationContainer>
