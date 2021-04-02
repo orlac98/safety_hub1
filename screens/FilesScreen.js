@@ -6,19 +6,10 @@ import Colours from "../constants/Colours";
 import {
   Text,
   View,
-  ListItem,
-  List,
   Icon,
   Container,
-  Header,
-  Title,
   Content,
-  Body,
   Button,
-  Right,
-  Item,
-  Input,
-  Left,
 } from "native-base";
 import { StyleSheet } from "react-native";
 import { Platform } from "react-native";
@@ -30,11 +21,13 @@ import firestore from "@react-native-firebase/firestore";
 import { color } from "react-native-reanimated";
 import ColourSelector from "../components/ColourSelector";
 import firebase from "@react-native-firebase/app";
+import { remove } from "lodash";
 
 const FilesScreen = (props) => {
+
   firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-      console.log('User email: ', user.email);
+      console.log("User email: ", user.email);
     }
   });
   const { storage, database } = firebaseSetup();
@@ -105,47 +98,59 @@ const FilesScreen = (props) => {
       }
     );
   }
+  const uniquKey = database().ref().child(`allFiles`).push().key;
 
   function saveFileToRealtimeDatabase(downloadURL, file) {
-    const uniquKey = database().ref().push().key;
-    database()
-      .ref(`allFiles/${user.uid}/${uniquKey}`)
-      .update({
-        fileName: file.name,
-        fileType: file.type,
-        fileURL: downloadURL,
-        // userId: `${user.uid}`,
-      });
+    // const uniquKey = database().ref().push().key;
+    database().ref(`allFiles/${user.uid}/${uniquKey}`).update({
+      fileName: file.name,
+      fileType: file.type,
+      fileURL: downloadURL,
+      // userId: `${user.uid}`,
+    });
+    
   }
+
+  const  deleteFile = Item =>  {
+      // const uniquKey = database().ref(`allFiles/${user.uid}/${uniquKey}`).key;
+    database()
+      .ref(`allFiles/${user.uid}` )
+      .remove()
+      .then(() => {})
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+
   React.useEffect(() => {
     //this is for development type
     setFilesList([]);
     //end
 
     const onChildAdded = database()
-      .ref(`allFiles/${user.uid}`)
+      .ref(`allFiles/${user.uid}/`)
       .on("child_added", (snapshot) => {
         let helperArr = [];
         helperArr.push(snapshot.val());
         setFilesList((files) => [...files, ...helperArr]);
       });
-    return () => database().ref(`allFiles`).off("child_added",onChildAdded);
+    return () => database().ref(`allFiles`).off("child_added", onChildAdded);
   }, []);
 
   const deleteAllFiles = (Id) => {
     // alert(Id);
   };
-  const deleteFile = (Id) => {
-    // alert(Id);
-  };
+  
 
   return (
-    <Container>
-      <Content>
+    <Container  >
+      <Content  >
         {filesList.map((item, index) => (
+          <View style={styles.row} >
           <CardView
-            // cardElevation={7}
-            //     cardMaxElevation={7}
+            cardElevation={7}
+                cardMaxElevation={7}
             cornerRadius={20}
             style={styles.card}
             key={index}
@@ -160,10 +165,16 @@ const FilesScreen = (props) => {
             >
               {item.fileName}
             </Text>
-            <Button transparent onPress={() => deleteFile("Id")}>
+            <Button
+              style={styles.icon}
+              transparent
+            
+              onPress={() => deleteFile("Item")}
+            >
               <Icon style={styles.icon} active name="trash" />
             </Button>
           </CardView>
+          </View>
         ))}
       </Content>
 
@@ -185,18 +196,30 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: Colours.lightgrey,
-    alignItems: "center",
+     alignItems: "center",
     justifyContent: "center",
-    alignSelf: "center",
-    flex: 1,
-    width: 200,
+    // alignSelf: "center",
+   
+    width: 150,
     marginTop: 30,
-    margin: 20,
+    margin: 10,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    
   },
   icon: {
     color: Colours.red,
+
+    alignSelf: "center",
+    justifyContent: "center",
   },
   text: {
     color: Colours.white,
   },
+  row: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignContent: "space-between",
+    justifyContent: "center",
+  }
 });

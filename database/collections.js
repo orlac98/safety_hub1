@@ -1,4 +1,3 @@
-
 export const onSnapshot = (ref, callback, options) => {
   ref.onSnapshot((snapshot) => {
     let items = snapshot.docs.map((doc) => {
@@ -27,8 +26,11 @@ export const removeDoc = (ref, id) => {
     });
 };
 
-export const updateDoc = (ref,id, data) =>{
-    ref.doc(id).set(data).the(() =>{
-        console.log(`Updated item: ${id}`)
+export const updateDoc = (ref, id, data) => {
+  ref
+    .doc(id)
+    .set(data)
+    .then(() => {
+      console.log(`Updated item: ${id}`);
     });
 };

@@ -1,57 +1,51 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, {  useState,useEffect } from "react";
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   FlatList,
-  ScrollView,
 } from "react-native";
 import Colours from "../constants/Colours";
 import { Ionicons } from "@expo/vector-icons";
 import { Octicons } from "@expo/vector-icons";
 import { FAB } from "react-native-paper";
-import { SafeAreaView } from "react-native";
+import firebaseSetup from "../database/firebaseDb";
+import { AuthContext } from "../navigation/AuthProvider";
 import {
-  onSapshot,
+  onSnapshot,
   addDoc,
   removeDoc,
   updateDoc,
 } from "../database/collections";
-import { firestore, auth } from "firebase";
-import { AuthContext } from "../navigation/AuthProvider";
-
 const TasksScreen = ({ navigation }) => {
-  
-  const {user} = useContext(AuthContext);
+  const { firestore,  auth} = firebaseSetup();
   const [lists, setLists] = useState([]);
 
+  const listsRef = firestore().collection("users").doc(auth().currentUser.uid)
+  .collection("lists");
 
-  // const listsRef = firestore().collection('users').doc(auth().currentUser.uid)
-  // .collection("lists");
-
-  // useEffect(() => {
-  //   onSapshot(
-  //     listsRef,
-  //     (newLists) => {
-  //       setLists(newLists);
-  //     },
-  //     {
-  //       sort: (a,b) => {
-  //         if(a.index < b.index){
-  //           return -1;
-  //         }
-  //         if(a.index > b.index) {
-  //           return 1;
-  //         }
-  //         return 0;
-  //       }
-  //     }
-  //   );
-    
-  // }, []);
-  
-
+  useEffect(() => {
+    onSnapshot(listsRef, (newLists) => {
+        setLists(newLists);
+      },{
+        sort: (a,b) => {
+          if(a.index < b.index){
+            return -1;
+          }
+          if(a.index > b.index) {
+            return 1;
+          }
+          return 0;
+        }
+      }
+    );
+  }, []);
+  // firebase.auth().onAuthStateChanged((user) => {
+  //   if (user) {
+  //     console.log("User email: ", user.email);
+  //   }
+  // });
   const ListButton = ({ title, color, onPress, onDelete, onOptions }) => {
     return (
       <TouchableOpacity
@@ -83,67 +77,74 @@ const TasksScreen = ({ navigation }) => {
     );
   };
 
-  const RenderAddListIcon = ({ addItemToLists }) => {
+  
+
+  
+ 
+    const addItemToLists = ({title, color}) => {
+      const index = lists.length > 1 ? lists[lists.length - 1].index + 1 : 0;
+      addDoc(listsRef, {title,color,index});
+    
+    };
+  
+
+    const removeItemFromLists = (id) => {
+     removeDoc(listsRef,id)
+    };
+    const updateItemFromLists = (id, item) => {
+     updateDoc(listsRef, id, item)
+    };
+    const RenderAddListIcon = ({ addItemToLists }) => {
+      return (
+        <View style={styles.container}>
+          <FAB
+            key={lists.id}
+            style={styles.fab}
+            large
+            icon="plus"
+            onPress={() =>
+              addItemToLists({ title: "Title", color: Colours.orange })
+            }
+          />
+        </View>
+      );
+    };
+    
     return (
       <View style={styles.container}>
-        <FAB
-          key={lists.id}
-          style={styles.fab}
-          large
-          icon="plus"
-          onPress={() =>
-            addItemToLists({ title: "Title", color: Colours.orange })
-          }
+        <FlatList
+          data={lists}
+          renderItem={({ item: { title, color,id,index }}) => {
+            return (
+              <ListButton
+              key={id}
+                title={title}
+                color={color}
+                navigation={navigation}
+                onPress={() => {
+                  navigation.navigate("TaskList", {
+                     title,
+                     color,
+                     listId: id });
+                }}
+                onOptions={() => {
+                  navigation.navigate("Edit", {
+                    title,
+                    color,
+                    saveChanges: (newItem) => 
+                    updateItemFromLists(id, {index, ...newItem}),
+                  });
+                }}
+                onDelete={() => removeItemFromLists(id)}
+              />
+            );
+          }}
         />
+        <RenderAddListIcon addItemToLists={addItemToLists} />
       </View>
     );
-  };
 
-  const addItemToLists = ({title, color}) => {
-    const index = lists.length > 1 ? lists[lists.length - 1].index + 1 : 0;
-    addDoc(listsRef, {title,color,index});
-    // setLists([...lists]);
-  };
-
-  const removeItemFromLists = (index) => {
-    lists.splice(index, 1);
-    setLists([...lists]);
-  };
-  const updateItemFromLists = (index, item) => {
-    lists[index] = item;
-    setLists([...lists]);
-  };
-
-  return (
-    <View style={styles.container}>
-      <FlatList
-        data={lists}
-        renderItem={({ item: { title, color }, index }) => {
-          return (
-            <ListButton
-              title={title}
-              color={color}
-              navigation={navigation}
-              onPress={() => {
-                navigation.navigate("TaskList", { title, color });
-              }}
-              onOptions={() => {
-                navigation.navigate("Edit", {
-                  title,
-                  color,
-                  saveChanges: (item) => updateItemFromLists(index, item),
-                });
-              }}
-              onDelete={() => removeItemFromLists(index)}
-            />
-          );
-        }}
-      />
-      <RenderAddListIcon addItemToLists={addItemToLists} />
-    </View>
-  );
 };
-
 export default TasksScreen;
 
 const styles = StyleSheet.create({

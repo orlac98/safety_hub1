@@ -1,5 +1,6 @@
 import React , { useState }from "react";
-import { ImageBackground,TextInput, ScrollView, View,ActivityIndicator,Pressable, Modal ,Alert, Text, Button, StyleSheet, SafeAreaView, TouchableOpacity} from "react-native";
+import {  View,Alert, Text,  StyleSheet,
+   SafeAreaView} from "react-native";
 import CardView from 'react-native-cardview';
 import firebase from '../database/firebaseDb';
 import Colours from "../constants/Colours";

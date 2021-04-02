@@ -6,7 +6,6 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  ScrollView,
 } from "react-native";
 import Colours from "../constants/Colours";
 import ColourSelector from '../components/ColourSelector';

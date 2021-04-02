@@ -11,12 +11,25 @@ import Checkbox from "../components/Checkbox";
 
 import { Octicons } from '@expo/vector-icons';
 
-const ToDoItem = ({ text, isChecked, onChecked, onChangeText , onDelete, isNewItem}) => {
-  const [isEditMode, setEditMode] = useState(isNewItem);
+const ToDoItem = ({
+   text,
+    isChecked,
+     onChecked,
+      onChangeText ,
+      isEditMode,
+      setEditMode,
+       onDelete, ...props }) => {
+  
 
-  const EditableText = ({isChecked, isEditMode, setEditMode, text}) => {
+  const EditableText = ({isChecked,onChecked,
+     onChangeText,
+      text ,...props}) => {
+    const [isEditMode, setEditMode] = useState(props.new);
+
     return (
-      <TouchableOpacity style={{ flex: 1 }} onPress={() => !isChecked && setEditMode(true)}>
+      <TouchableOpacity style={{ flex: 1 }}
+       onPress={() => !isChecked && setEditMode(true)}>
+
         {isEditMode ? (
           <TextInput
             underlineColorAndroid={"transparent"}
@@ -28,7 +41,10 @@ const ToDoItem = ({ text, isChecked, onChecked, onChangeText , onDelete, isNewIt
             onSubmitEditing={() => {}}
             maxLength={100}
             style={styles.input}
-            onBlur={() => setEditMode(false)}
+            onBlur={() => {
+              props.onBlur && props.onBlur();
+              setEditMode(false)
+            }}
           />
         ) : (
           <Text
@@ -49,10 +65,11 @@ const ToDoItem = ({ text, isChecked, onChecked, onChangeText , onDelete, isNewIt
       <View styles={{ flexDirection: "row", flex: 1 }}>
         <Checkbox isChecked={isChecked} onChecked={onChecked} />
       </View>
-      <EditableText text={text} 
+      <EditableText 
+         text={text} 
          onChangeText={onChangeText}
          isChecked={isChecked} 
-         isNewItem={isNewItem}
+         {...props}
          isEditMode={isEditMode}
          setEditMode={setEditMode}
          />

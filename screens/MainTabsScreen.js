@@ -1,27 +1,18 @@
-import { NavigationContainer } from '@react-navigation/native';
 import  React from 'react';
- import { createStackNavigator } from '@react-navigation/stack';
- import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Button from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
 
 //icon fonts
 
-import { SimpleLineIcons } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons'; 
 
 import ProfileScreen from './ProfileScreen';
 import TasksScreen from './TasksScreen';
 import FilesScreen from './FilesScreen';
 import FormsScreen from './FormsScreen';
-import LearnScreen from "./LearnScreen";
 
- const TasksStack = createStackNavigator();
- const ProfileStack = createStackNavigator();
- const FormsStack = createStackNavigator();
+
 
 const Tab = createBottomTabNavigator();
 
@@ -33,8 +24,9 @@ const MainTabsScreen = () => {
     activeTintColor: '#fb8856',
     inactiveTintColor: '#45505d',
     showLabel: false,
+    position: 'absolute',
     style: {
-        // position: 'absolute',
+        
         height: 60,
         backgroundColor: '#1c1c1c',
         borderTopLeftRadius: 20,

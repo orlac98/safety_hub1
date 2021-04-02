@@ -1,60 +1,83 @@
-import React, { Component } from "react";
+import React, { Component, useContext } from "react";
 import { useState } from "react";
 import { StyleSheet } from 'react-native'
 import {
   Container,
-  Header,
-  Title,
+ 
   Content,
   Button,
   Item,
   Label,
   Input,
-  Body,
-  Left,
-  Right,
-  Icon,
+ 
   Form,
   Text,
   H3,
-  View,
+
 } from "native-base";
 import {addAsbestosform} from '../database/forms';
-import firebase from 'firebase/app';
+import storage from '@react-native-firebase/storage';
+import firestore from '@react-native-firebase/firestore';
 import 'firebase/firestore';
-export default function Asbestos ({navigation}) {
+import {AuthContext} from '../navigation/AuthProvider';
 
-  
-  const [name, setName] = useState("")
-  const [date, setDate] = useState("")
-  const [address, setAddress] = useState("")
-  const [no, setNo] = useState("")
-  const [code, setCode] = useState("")
-  const [client, setClient] = useState("")
-  const [clientD, setClientD] = useState("")
-  const [remove, setRemove] = useState("")
-  const [contact0, setContact0] = useState("")
-  const [contact1, setContact1] = useState("")
 
-function addAsbestos() {
-  var AsbestosForms = {
-    "name" : name, 
-    "date" : date, 
-    "address" : address, 
-    "no" : no, 
-    "code" : code, 
-    "client" : client, 
-    "clientD" : clientD, 
-    "remove" : remove, 
-    "contact0" : contact0, 
-    "contact1" : contact1, 
+const  Asbestos = () => {
+  const {user, logout} = useContext(AuthContext);
+  const [form, setForm] = useState(null);
+  // const [name, setName] = useState("")
+  // const [date, setDate] = useState("")
+  // const [address, setAddress] = useState("")
+  // const [no, setNo] = useState("")
+  // const [code, setCode] = useState("")
+  // const [client, setClient] = useState("")
+  // const [clientD, setClientD] = useState("")
+  // const [remove, setRemove] = useState("")
+  // const [contact0, setContact0] = useState("")
+  // const [contact1, setContact1] = useState("")
+
+const addAsbestos = async => {
+
+  firestore()
+    .collection('forms')
+    .add({
+      userId: user.uid,
+      post: post,
+      postImg: imageUrl,
+      postTime: firestore.Timestamp.fromDate(new Date()),
+      likes: null,
+      comments: null,
+    })
+    .then(() => {
+      console.log('Post Added!');
+      Alert.alert(
+        'Post published!',
+        'Your post has been published Successfully!',
+      );
+      setPost(null);
+    })
+    .catch((error) => {
+      console.log('Something went wrong with added post to firestore.', error);
+    });
   }
+  // var AsbestosForms = {
+  //   "name" : name, 
+  //   "date" : date, 
+  //   "address" : address, 
+  //   "no" : no, 
+  //   "code" : code, 
+  //   "client" : client, 
+  //   "clientD" : clientD, 
+  //   "remove" : remove, 
+  //   "contact0" : contact0, 
+  //   "contact1" : contact1, 
+  // }
   addAsbestosform(AsbestosForms, asbestosComplete)
 
-}
+
 function asbestosComplete() {
   navigation.navigate("FormsScreen")
-}
+
     return (
       <Container style={styles.container}>
       
@@ -127,7 +150,10 @@ function asbestosComplete() {
         </Content>
       </Container>
     );
-  }
+    }
+}
+
+  export default Asbestos;
 
 const styles = StyleSheet.create({
   container: {

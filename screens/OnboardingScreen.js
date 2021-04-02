@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { View, Text,  Image, StyleSheet, TouchableOpacity } from 'react-native';
+import {  Text,  Image, StyleSheet, TouchableOpacity } from 'react-native';
 
 import Onboarding from 'react-native-onboarding-swiper';
 

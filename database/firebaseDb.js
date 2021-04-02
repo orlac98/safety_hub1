@@ -4,7 +4,6 @@ import database from '@react-native-firebase/database';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 
-
 const firebaseConfig = {
     apiKey: "AIzaSyAYkrN8zbB8_2ysGucn1cbSm_e2sfCIRr0",
     authDomain: "safetyhub-ec418.firebaseapp.com",
@@ -15,14 +14,14 @@ const firebaseConfig = {
     appId: "1:1002480327063:web:fe219b49a6e7f30ce8ccd2"
     
   };
-
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-
   export default () => {
     return {firebase, auth, database, storage,firestore};
   };
+ if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+ 
 // import firebase from "firebase/app";
 // import { firebaseConfig } from "firebase";
 
